@@ -36,6 +36,16 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/register")
+    public ResponseEntity<?> registerUserGet(@RequestParam String studentId, @RequestParam String password, @RequestParam String fullName, @RequestParam String email) {
+        try {
+            User user = authService.registerUser(studentId, password, fullName, email);
+            return ResponseEntity.ok(new RegisterResponse(user.getStudentId(), user.getFullName()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
 
 record RegisterRequest(String studentId, String password, String fullName, String email) {}
